@@ -13977,8 +13977,8 @@ var slick = __webpack_require__(154);
 ;// CONCATENATED MODULE: ./src/js/app.js
  // eslint-disable-next-line no-unused-vars
 
+ // new window.WOW().init();
 
-new window.WOW().init();
 jquery_default()(function () {
   // slider
   (function () {
@@ -14002,7 +14002,10 @@ jquery_default()(function () {
       arrows: false,
       fade: true,
       autoplay: true,
-      autoplaySpeed: 5000
+      pauseOnFocus: false,
+      pauseOnHover: false,
+      autoplaySpeed: 3000,
+      draggable: false
     });
   })(); // sidenav
 
@@ -14026,6 +14029,50 @@ jquery_default()(function () {
       modal.classList.toggle('open');
       jquery_default()('.js-sliderModal').slick('setPosition');
       jquery_default()('.js-sliderModal').slick('slickGoTo', +e.target.dataset.index, true);
+    });
+  } // goto top
+
+  {
+    var goTop = document.querySelector('#gotop');
+    goTop.addEventListener('click', function () {
+      jquery_default()('html,body').animate({
+        scrollTop: 0
+      }, 'slow');
+    }); // eslint-disable-next-line prefer-arrow-callback
+
+    jquery_default()(window).scroll(function () {
+      if (jquery_default()(this).scrollTop() > document.body.scrollHeight / 2) {
+        jquery_default()('#gotop').fadeIn();
+      } else {
+        jquery_default()('#gotop').fadeOut();
+      }
+    });
+  }
+  {
+    var options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    };
+
+    var callback = function callback(entries) {
+      [].forEach.call(entries, function (entry) {
+        if (entry.isIntersecting) {
+          if (entry.target.id === 'scrollArea') {
+            document.querySelector('#scrollArea').classList.add('starAnimation');
+            observer.unobserve(document.querySelector('#scrollArea'));
+          } else {
+            entry.target.classList.add(entry.target.dataset.animateName);
+            observer.unobserve(entry.target);
+          }
+        }
+      });
+    };
+
+    var observer = new IntersectionObserver(callback, options);
+    observer.observe(document.querySelector('#scrollArea'));
+    [].forEach.call(document.querySelectorAll('.animate__animated'), function (dom) {
+      observer.observe(dom);
     });
   }
 });

@@ -13977,7 +13977,6 @@ var slick = __webpack_require__(154);
 ;// CONCATENATED MODULE: ./src/js/app.js
  // eslint-disable-next-line no-unused-vars
 
- // new window.WOW().init();
 
 jquery_default()(function () {
   // slider
@@ -14005,7 +14004,9 @@ jquery_default()(function () {
       pauseOnFocus: false,
       pauseOnHover: false,
       autoplaySpeed: 3000,
-      draggable: false
+      draggable: false,
+      swipe: false,
+      touchMove: false
     });
   })(); // sidenav
 
@@ -14058,21 +14059,15 @@ jquery_default()(function () {
     var callback = function callback(entries) {
       [].forEach.call(entries, function (entry) {
         if (entry.isIntersecting) {
-          if (entry.target.id === 'scrollArea') {
-            document.querySelector('#scrollArea').classList.add('starAnimation');
-            observer.unobserve(document.querySelector('#scrollArea'));
-          } else {
-            entry.target.classList.add(entry.target.dataset.animateName);
-            observer.unobserve(entry.target);
-          }
+          entry.target.classList.add(entry.target.dataset.animateName);
+          observer.unobserve(entry.target);
         }
       });
     };
 
     var observer = new IntersectionObserver(callback, options);
-    observer.observe(document.querySelector('#scrollArea'));
-    [].forEach.call(document.querySelectorAll('.animate__animated'), function (dom) {
-      observer.observe(dom);
+    [].forEach.call(document.querySelectorAll('.js-animate'), function (dom) {
+      return observer.observe(dom);
     });
   }
 });
